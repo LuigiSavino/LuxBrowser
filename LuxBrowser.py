@@ -13,7 +13,8 @@ class Lux():
 
         self.favourites = list()
 
-        fav = open('fav.txt','r')
+        # Read the saved link file
+        fav = open('favourite_list.txt','r')
         saved = fav.read()
         fav.close()
         self.favourites = saved.split()
@@ -26,6 +27,7 @@ class Lux():
         self.home = gtk.ToolButton(gtk.STOCK_HOME)
         self.favourite = gtk.ToolButton(gtk.STOCK_APPLY)
         self.address_bar = gtk.Entry()
+        #---ProgressBar to implement---
         #self.progress_bar = gtk.ProgressBar()
         #self.progress_bar.set_fraction(0)
 
@@ -58,6 +60,7 @@ class Lux():
         self.window.show_all()
         gtk.main()
 
+    # Load the page written in the address bar, here's also implemented the Google search function from address bar
     def load_page(self, widget):
         add = self.address_bar.get_text()
         google_search= 'https://www.google.it/#q='
@@ -95,8 +98,9 @@ class Lux():
     def homepage(self,widget):
         self.webview.open('http://www.google.it')
 
+    # Add a new link to saved link file
     def save_to_fav(self,widget):
-        fav = open('fav.txt','a')
+        fav = open('favourite_list.txt','a')
         fav.write(self.address_bar.get_text())
         fav.close()
 
