@@ -1,7 +1,9 @@
 import gtk
-import webkit
+import webkit2
 
-#Browser
+# Browser
+
+
 class Lux():
 
     def __init__(self):
@@ -10,11 +12,12 @@ class Lux():
         self.window.set_icon_from_file('lux.png')
         self.window.connect('destroy', lambda w: gtk.main_quit())
         self.window.set_default_size(360, 600)
+        self.window.set_resizable(True)
 
         self.favourites = list()
 
         # Read the saved link file
-        fav = open('favourite_list.txt','r')
+        fav = open('favourite_list.txt', 'r')
         saved = fav.read()
         fav.close()
         self.favourites = saved.split()
@@ -27,9 +30,11 @@ class Lux():
         self.home = gtk.ToolButton(gtk.STOCK_HOME)
         self.favourite = gtk.ToolButton(gtk.STOCK_APPLY)
         self.address_bar = gtk.Entry()
-        #---ProgressBar to implement---
-        #self.progress_bar = gtk.ProgressBar()
-        #self.progress_bar.set_fraction(0)
+
+        # ---ProgressBar to implement---
+
+        self.progress_bar = gtk.ProgressBar()
+        self.progress_bar.set_fraction(0)
 
         self.back.connect('clicked', self.go_back)
         self.forward.connect('clicked', self.go_forward)
@@ -42,7 +47,7 @@ class Lux():
         self.navigation.pack_start(self.forward, False)
         self.navigation.pack_start(self.refresh, False)
         self.navigation.pack_start(self.home, False)
-        self.navigation.pack_start(self.favourite,False)
+        self.navigation.pack_start(self.favourite, False)
         self.navigation.pack_start(self.address_bar)
 
         self.view = gtk.ScrolledWindow()
@@ -60,10 +65,12 @@ class Lux():
         self.window.show_all()
         gtk.main()
 
-    # Load the page written in the address bar, here's also implemented the Google search function from address bar
+    # Load the page written in the address bar, here's also implemented the
+    # Google search function from address bar
+
     def load_page(self, widget):
         add = self.address_bar.get_text()
-        google_search= 'https://www.google.it/#q='
+        google_search = 'https://www.google.it/#q='
         closure = '&*'
         if add.startswith('http://') or add.startswith('https://'):
             self.webview.open(add)
@@ -73,11 +80,11 @@ class Lux():
         else:
             add = 'http://' + add
             self.address_bar.set_text(add)
-            #self.progress_bar.pulse();
-            #self.progress_bar.set_pulse_step(0.5)
+            # self.progress_bar.pulse();
+            # self.progress_bar.set_pulse_step(0.5)
             self.webview.open(add)
-            #self.progress_bar.set_pulse_step(1.0)
-            #self.progress_bar.set_fraction(0.0)
+            # self.progress_bar.set_pulse_step(1.0)
+            # self.progress_bar.set_fraction(0.0)
 
     def change_title(self, widget, frame, title):
         self.window.set_title(title)
@@ -95,7 +102,7 @@ class Lux():
     def refresh_page(self, widget):
         self.webview.reload()
 
-    def homepage(self,widget):
+    def homepage(self, widget):
         self.webview.open('http://www.google.it')
 
     # Add a new link to saved link file
